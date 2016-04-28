@@ -55,7 +55,7 @@ void HandleException(NSException *exception)
     NSString *reason = [exception reason];
     
     // 异常名称
-    NSString *name = [exception name];
+  //  NSString *name = [exception name];
     
     //异常出现的所在类，及方法名
     NSString *crashCls=stackArray[3];
