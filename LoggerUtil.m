@@ -215,6 +215,7 @@
                 [store clearTable:LOGGER_DB_TABLE_NAME];
             }
             
+            return;
             
         }]resume];
         
