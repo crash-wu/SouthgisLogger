@@ -174,7 +174,7 @@
  */
 -(void)uploadLoggerToService:(NSString *)servicehost{
 
-    NSString *url =[NSString stringWithFormat:@"%@/mobile_config/api/mobileLog/saveMobileLog.do",servicehost];
+
     
     dispatch_queue_t queue =dispatch_queue_create("uploadLogger", NULL);
     
@@ -191,10 +191,34 @@
         }
 
         NSString *json= [mutbArray yy_modelToJSONString];
-       // json=[self p_stringByURLEncode:json];
+        json=[self p_stringByURLEncode:json];
         
+        NSString *url =[NSString stringWithFormat:@"%@/mobile_config/api/mobileLog/saveMobileLog.do?json=%@",servicehost,json];
         
+        [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+
+            if (error) {
+
+                return ;
+            }
+            
+            if (!data || data.length == 0) {
+                return ;
+            }
+            
+            id json;
+            if ([data isKindOfClass:[NSData class]]) {
+                json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            }
+            if (![json objectForKey:@"code"] &&([[json objectForKey:@"code"] integerValue]==200)) {
+                
+                [store clearTable:LOGGER_DB_TABLE_NAME];
+            }
+            
+            
+        }]resume];
         
+        /*
         NSDictionary *param =@{@"json":json};
 
         AFHTTPSessionManager *httpManager = [AFHTTPSessionManager manager];
@@ -215,9 +239,10 @@
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             
             
-        }];
+        }];*/
         
     });
+         
 }
 
 

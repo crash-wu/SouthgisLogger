@@ -10,7 +10,7 @@
 #import <YTKKeyValueStore.h>
 #import "LoggerDao.h"
 #import <YYModel.h>
-#import <AFNetworking.h>
+//#import <AFNetworking.h>
 /**
  *  @brief  日记处理类
  */
